@@ -33,6 +33,10 @@ public class Proto
 			this.quit = true;
 		else if (cmd.equalsIgnoreCase("L"))
 			addCourse();
+		else if (cmd.equalsIgnoreCase("N"))
+			printCourses();
+        else
+            System.out.println("Virheellinen komento");
 	}
 	
 	private void addCourse()
@@ -45,6 +49,11 @@ public class Proto
 	
 	private void printCourses()
 	{
+        if(courses.size() == 0) 
+        {
+            System.out.println("Kursseja ei ole lisätty");
+        }
+
 		for (Kurssi c : courses)
 		{
 			System.out.println(c.coursename);
@@ -61,6 +70,7 @@ public class Proto
 		"   N   Näytä kalenteri                           \n"+
 		"   V   Vaihda näkymää                            \n"+
 		"   T   Tuo kurssit                               \n"+
+		"   Q   Lopeta                                    \n"+
 		"                                                 \n"+
 		"*************************************************");
 	}
