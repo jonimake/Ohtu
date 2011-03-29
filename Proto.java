@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Proto
+{
+	private ArrayList<Kurssi> courses;
+	private Scanner sc;
+	private boolean quit;
+	
+	public Proto()
+	{
+		this.courses = new ArrayList<Kurssi>();
+		this.sc = new Scanner(System.in);
+		this.quit = false;
+	}
+	
+	public void loop()
+	{
+		while (!quit)
+		{
+			printMenu();
+			readCommand();
+		}
+	}
+	
+	private void readCommand()
+	{
+		String cmd = sc.nextLine();
+		System.out.println("Annoit komennon "+cmd);
+		if (cmd.equalsIgnoreCase("q"))
+			this.quit = true;
+		else if (cmd.equalsIgnoreCase("L"))
+			addCourse();
+	}
+	
+	private void addCourse()
+	{
+		System.out.println("Anna kurssin nimi");
+		String coursename = sc.nextLine();
+		Kurssi course = new Kurssi(courses.size(), coursename);
+		courses.add(course);
+	}
+	
+	private void printCourses()
+	{
+		for (Kurssi c : courses)
+		{
+			System.out.println(c.coursename);
+		}
+	}
+
+	public void printMenu()
+	{
+		System.out.println(
+		"*************************************************\n"+		
+		"   Kalenteri                                     \n"+
+		"                                                 \n"+
+		"   L   Lisää kurssi                              \n"+
+		"   N   Näytä kalenteri                           \n"+
+		"   V   Vaihda näkymää                            \n"+
+		"   T   Tuo kurssit                               \n"+
+		"                                                 \n"+
+		"*************************************************");
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) 
+	{
+		Proto proto = new Proto();
+		proto.loop();
+		
+	}
+}
