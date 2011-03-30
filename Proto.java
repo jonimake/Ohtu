@@ -44,17 +44,35 @@ public class Proto
             System.out.println("Virheellinen komento");
 	}
 	
+	
 	private void addCourse()
 	{
 		System.out.println("Anna kurssin nimi");
 		String coursename = sc.nextLine();
 		Course course = new Course(0, coursename);
+		System.out.println("Anna alkupvm");
+		System.out.print("Päivä: ");
+		int date = sc.nextInt();
+		System.out.print("Kuukausi: ");
+		int month = sc.nextInt();
+		System.out.print("Vuosi: ");
+		int year = sc.nextInt();
+		course.setStartDate(year, month, date);
+		
+		System.out.println("Anna loppupvm");
+		System.out.print("Päivä: ");
+		date = sc.nextInt();
+		System.out.print("Kuukausi: ");
+		month = sc.nextInt();
+		System.out.print("Vuosi: ");
+		year = sc.nextInt();
+		course.setEndDate(year, month, date);
 		calendar.add(course);
 	}
 	
 	private void printCourses()
 	{
-		calendar.print();
+		System.out.println(calendar.toString());
 		pressEnter();
 	}
 	

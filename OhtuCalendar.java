@@ -1,6 +1,7 @@
 package Ohtu;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 
 /*
@@ -12,10 +13,14 @@ public class OhtuCalendar
 {
 	private static final OhtuCalendar instance = new OhtuCalendar();
 	ArrayList<Course> courses;
+	ArrayList<Course> allCourses;
 	
 	private OhtuCalendar()
 	{
 		this.courses = new ArrayList<Course>();
+		this.allCourses = new ArrayList<Course>();
+		CourseImporter im = new CourseImporter();
+		im.importCourses("www.cs.helsinki.fi");
 	}
 	
 	public static OhtuCalendar getInstance() 
@@ -23,21 +28,26 @@ public class OhtuCalendar
         return instance;
     }
 	
-	public void add(Course course)
+	public boolean add(Course course)
 	{
 		courses.add(course);
+		return true;
 	}
 	
-	public void print()
+	public String toString()
 	{
+		String tmp = new String("");
         if(courses.size() == 0) 
         {
-            System.out.println("Kursseja ei ole lisätty");
+            tmp = "Kursseja ei ole lisätty";
+            return tmp;
         }
 
 		for (Course c : courses)
 		{
-			System.out.println(c.coursename);
+			tmp = tmp+(c.coursename +" "+ c.dateToString(c.getStartDate())+" - "+ c.dateToString(c.getEndDate())+"\n");
 		}
+		
+		return tmp;
 	}
 }

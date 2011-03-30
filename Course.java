@@ -39,4 +39,11 @@ public class Course
 	{
 		return this.enddate;
 	}
+	
+	public String dateToString(GregorianCalendar c)
+	{
+		String tmp;
+		tmp = c.get(GregorianCalendar.DATE) +"."+ c.get(GregorianCalendar.MONTH) +"."+ c.get(GregorianCalendar.YEAR) ;
+		return tmp;
+	}
 }
