@@ -1,6 +1,10 @@
 package Ohtu;
 
 import java.util.GregorianCalendar;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Course
 {
@@ -25,6 +29,21 @@ public class Course
 		this.startdate.set(year, month, date);
 	}
 	
+	public void setStartDate(String str)
+	{
+		String delims = "[.]";
+		String[] tokens = str.split(delims);
+		this.startdate.set(Integer.parseInt(tokens[2].trim()), Integer.parseInt(tokens[1].trim()), Integer.parseInt(tokens[0].trim())); 
+		
+	}
+	
+	public void setEndDate(String str)
+	{
+		String delims = "[.]";
+		String[] tokens = str.split(delims);
+		this.enddate.set(Integer.parseInt(tokens[2].trim()), Integer.parseInt(tokens[1].trim()), Integer.parseInt(tokens[0].trim())); 
+	}
+	
 	public void setEndDate(int year, int month, int day)
 	{
 		this.enddate.set(year, month, day);
@@ -45,5 +64,22 @@ public class Course
 		String tmp;
 		tmp = c.get(GregorianCalendar.DATE) +"."+ c.get(GregorianCalendar.MONTH) +"."+ c.get(GregorianCalendar.YEAR) ;
 		return tmp;
+	}
+	
+	private class Event
+	{
+		private GregorianCalendar eventDate;
+		public boolean repeatWeekly;
+		
+		public Event()
+		{
+			this.eventDate = new GregorianCalendar();
+			
+		}
+		
+		public void setTime(int year, int month, int day, int hour, int minute)
+		{
+			this.eventDate.set(year, month, day, hour, minute);
+		}
 	}
 }

@@ -34,9 +34,18 @@ public class OhtuCalendar
 		return true;
 	}
 	
+	public boolean contains(Course course)
+	{
+		for (Course c : courses)
+			if (c.coursename.equalsIgnoreCase(course.coursename))
+				return true;
+		
+		return false;
+	}
+	
 	public String toString()
 	{
-		String tmp = new String("");
+		String tmp = new String();
         if(courses.size() == 0) 
         {
             tmp = "Kursseja ei ole lisätty";
@@ -45,7 +54,7 @@ public class OhtuCalendar
 
 		for (Course c : courses)
 		{
-			tmp = tmp+(c.coursename +" "+ c.dateToString(c.getStartDate())+" - "+ c.dateToString(c.getEndDate())+"\n");
+			tmp = tmp+(c.coursename +" "+ c.dateToString(c.getStartDate())+" - "+ c.dateToString(c.getEndDate()));
 		}
 		
 		return tmp;

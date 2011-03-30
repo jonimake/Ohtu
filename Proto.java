@@ -32,7 +32,10 @@ public class Proto
 	
 	private void readCommand()
 	{
-		String cmd = sc.nextLine();
+		String cmd;
+		if(!sc.hasNextLine())
+			return;
+		cmd = sc.nextLine();
 		System.out.println("Annoit komennon "+cmd);
 		if (cmd.equalsIgnoreCase("q"))
 			this.quit = true;
@@ -50,23 +53,20 @@ public class Proto
 		System.out.println("Anna kurssin nimi");
 		String coursename = sc.nextLine();
 		Course course = new Course(0, coursename);
-		System.out.println("Anna alkupvm");
-		System.out.print("Päivä: ");
-		int date = sc.nextInt();
-		System.out.print("Kuukausi: ");
-		int month = sc.nextInt();
-		System.out.print("Vuosi: ");
-		int year = sc.nextInt();
-		course.setStartDate(year, month, date);
 		
-		System.out.println("Anna loppupvm");
-		System.out.print("Päivä: ");
-		date = sc.nextInt();
-		System.out.print("Kuukausi: ");
-		month = sc.nextInt();
-		System.out.print("Vuosi: ");
-		year = sc.nextInt();
-		course.setEndDate(year, month, date);
+		if(calendar.contains(course))
+			System.out.println("Kurssi on jo kalenterissasi, haluatko lisätä sille viikottaisen tapahtuman?");
+		
+		System.out.println("Anna alkupvm muotoa dd.mm.yyyy");
+		String str; 
+		
+		str = sc.nextLine();
+		course.setStartDate(str);
+		
+		System.out.println("Anna loppupvm muotoa dd.mm.yyyy");
+		str = sc.nextLine();
+		course.setEndDate(str);
+		
 		calendar.add(course);
 	}
 	
