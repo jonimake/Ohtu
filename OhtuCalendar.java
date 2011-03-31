@@ -1,4 +1,4 @@
-package Ohtu;
+//package Ohtu;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -54,7 +54,7 @@ public class OhtuCalendar
 
 		for (Course c : courses)
 		{
-			tmp = tmp+(c.coursename +" "+ c.dateToString(c.getStartDate())+" - "+ c.dateToString(c.getEndDate()));
+			tmp = tmp + c.toString();
 		}
 		
 		return tmp;

@@ -1,4 +1,4 @@
-package Ohtu;
+//package Ohtu;
 
 public class CourseImporter
 {
