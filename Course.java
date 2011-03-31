@@ -1,4 +1,4 @@
-package Ohtu;
+//package Ohtu;
 
 import java.util.GregorianCalendar;
 import java.text.DateFormat;
@@ -12,6 +12,8 @@ public class Course
 	//private DateFormat start, end;
 	private int coursecode;
 	public String coursename;
+	private int coursepoints;
+	private GregorianCalendar examdate;
 	
 	
 	public Course(int i, String name)
@@ -20,8 +22,20 @@ public class Course
 		this.coursename = name;
 		this.startdate = new GregorianCalendar();
 		this.enddate = new GregorianCalendar();
+		this.coursepoints = 0;
+		this.examdate = new GregorianCalendar();
 		//this.start = DateFormat.getDateInstance();
 		//this.end = DateFormat.getDateInstance();
+	}
+	
+	public void setCoursepoints(int cp)
+	{
+		this.coursepoints = cp;
+	}
+	
+	public int getCoursepoints()
+	{
+		return this.coursepoints;
 	}
 	
 	public void setStartDate(int year, int month, int date)
@@ -61,9 +75,29 @@ public class Course
 	
 	public String dateToString(GregorianCalendar c)
 	{
+		/*
+		int m = c.get(GregorianCalendar.MONTH) + 1;
+		 int d = c.get(GregorianCalendar.DATE);
+		 String mm = Integer.toString(m);
+		 String dd = Integer.toString(d);
+		 return "" + (d < 10 ? "0" + dd : dd) + "." +
+		     (m < 10 ? "0" + mm : mm) + "." + c.get(GregorianCalendar.YEAR);
+		*/
+		
 		String tmp;
 		tmp = c.get(GregorianCalendar.DATE) +"."+ c.get(GregorianCalendar.MONTH) +"."+ c.get(GregorianCalendar.YEAR) ;
 		return tmp;
+	}
+	
+	public String toString() 
+	{
+		String ret = "";
+		ret += "Nimi: " + this.coursename + "\n";
+		ret += "\tAloituspäivämäärä: " + dateToString(this.startdate) + "\n";
+		ret += "\tPäättymispäivämäärä: " + dateToString(this.enddate) + "\n";
+		ret += "\tOpintopisteet: " + this.coursepoints + "\n";
+		ret += "\tTentin ajankohta: Ei lisätty\n";
+		return ret;
 	}
 	
 	private class Event
