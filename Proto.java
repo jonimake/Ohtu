@@ -1,4 +1,4 @@
-//package Ohtu;
+package Ohtu;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,6 +19,9 @@ public class Proto
 		this.sc = new Scanner(System.in);
 		this.quit = false;
 		calendar = OhtuCalendar.getInstance();
+		calendar.add(new Course(0, "Rinnakkaisohjelmointi"));
+		calendar.add(new Course(0, "Tietorakenteet"));
+		calendar.add(new Course(0, "Ohjelmistotuotanto"));
 	}
 	
 	public void loop()
@@ -92,6 +95,7 @@ public class Proto
 		"   N   Näytä kalenteri                           \n"+
 		"   V   Vaihda näkymää                            \n"+
 		"   T   Tuo kurssit                               \n"+
+		"   R   Luo raportti                              \n"+
 		"   Q   Lopeta                                    \n"+
 		"                                                 \n"+
 		"*************************************************");

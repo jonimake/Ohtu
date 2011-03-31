@@ -54,7 +54,7 @@ public class OhtuCalendar
 
 		for (Course c : courses)
 		{
-			tmp = tmp + c.toString();
+			tmp = tmp + c.toString() + "\n";
 		}
 		
 		return tmp;

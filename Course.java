@@ -1,4 +1,4 @@
-//package Ohtu;
+package Ohtu;
 
 import java.util.GregorianCalendar;
 import java.text.DateFormat;
