@@ -1,4 +1,4 @@
-//package Ohtu;
+package Ohtu;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -19,8 +19,8 @@ public class OhtuCalendar
 	{
 		this.courses = new ArrayList<Course>();
 		this.allCourses = new ArrayList<Course>();
-		CourseImporter im = new CourseImporter();
-		im.importCourses("www.cs.helsinki.fi");
+		CourseImporter im = new CourseImporter("http://www.cs.helsinki.fi/u/tkairi/rajapinta/courses.json");
+		this.allCourses = im.importCourses();
 	}
 	
 	public static OhtuCalendar getInstance() 
