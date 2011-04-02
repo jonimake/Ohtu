@@ -18,10 +18,10 @@ public class Proto
 	{
 		this.sc = new Scanner(System.in);
 		this.quit = false;
-		calendar = OhtuCalendar.getInstance();
-		calendar.add(new Course(0, "Rinnakkaisohjelmointi"));
-		calendar.add(new Course(0, "Tietorakenteet"));
-		calendar.add(new Course(0, "Ohjelmistotuotanto"));
+		this.calendar = OhtuCalendar.getInstance();
+		//calendar.add(new Course(0, "Rinnakkaisohjelmointi"));
+		//calendar.add(new Course(0, "Tietorakenteet"));
+		//calendar.add(new Course(0, "Ohjelmistotuotanto"));
 	}
 	
 	public void loop()
@@ -46,6 +46,8 @@ public class Proto
 			addCourse();
 		else if (cmd.equalsIgnoreCase("N"))
 			printCourses();
+		else if (cmd.equalsIgnoreCase("T"))
+			importAndPrintCourses();
         else
             System.out.println("Virheellinen komento");
 	}
@@ -79,6 +81,11 @@ public class Proto
 		pressEnter();
 	}
 	
+	private void importAndPrintCourses()
+	{
+        this.calendar.printAllCoursesWithIndex();
+	}
+
 	private void pressEnter()
 	{
 		System.out.println("Paina entteriä jatkaaksesi");

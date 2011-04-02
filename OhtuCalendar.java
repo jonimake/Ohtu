@@ -42,6 +42,16 @@ public class OhtuCalendar
 		
 		return false;
 	}
+
+    public void printAllCoursesWithIndex()
+    {
+        int i = 1;
+        for(Course c : this.allCourses)
+        {
+            System.out.println(i + ": " + c.coursename);
+            i++;
+        }
+    }
 	
 	public String toString()
 	{

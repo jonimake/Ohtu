@@ -40,11 +40,11 @@ public class ImportCourses
         }
         public String getStart_date()
         {
-            return course;
+            return start_date;
         }
         public String getEnd_date()
         {
-            return course;
+            return end_date;
         }
         public void setCourse(String i)
         {
