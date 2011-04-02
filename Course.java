@@ -58,6 +58,16 @@ public class Course
 		this.enddate.set(Integer.parseInt(tokens[2].trim()), Integer.parseInt(tokens[1].trim()), Integer.parseInt(tokens[0].trim())); 
 	}
 	
+	public void setExamDate(GregorianCalendar g)
+	{
+		this.examdate = g;
+	}
+
+	public void setExamDate(int year, int month, int day)
+	{
+		this.examdate.set(year, month, day);
+	}
+
 	public void setEndDate(int year, int month, int day)
 	{
 		this.enddate.set(year, month, day);
@@ -71,6 +81,11 @@ public class Course
 	public GregorianCalendar getEndDate()
 	{
 		return this.enddate;
+	}
+    
+	public GregorianCalendar getExamDate()
+	{
+		return this.examdate;
 	}
 	
 	public String dateToString(GregorianCalendar c)
@@ -96,7 +111,7 @@ public class Course
 		ret += "\tAloituspäivämäärä: " + dateToString(this.startdate) + "\n";
 		ret += "\tPäättymispäivämäärä: " + dateToString(this.enddate) + "\n";
 		ret += "\tOpintopisteet: " + this.coursepoints + "\n";
-		ret += "\tTentin ajankohta: Ei lisätty\n";
+		ret += "\tTentin ajankohta: " + dateToString(this.examdate) + "\n";
 		return ret;
 	}
 	

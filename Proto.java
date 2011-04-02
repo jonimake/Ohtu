@@ -1,5 +1,6 @@
 package Ohtu;
 
+import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Calendar;
@@ -80,11 +81,67 @@ public class Proto
 		System.out.println(calendar.toString());
 		pressEnter();
 	}
-	
+
 	private void importAndPrintCourses()
-	{
+    {
         this.calendar.printAllCoursesWithIndex();
-	}
+        System.out.println(
+                "*************************************************\n"+		
+                "                                                 \n"+
+                "   Rekisteröinti:                                \n"+
+                "   Anna sen kurssin numero jolle haluat          \n"+
+                "   osallistua. Jos haluat rekisteröityä monelle  \n"+
+                "   kurssille samalla kertaa, niin annan kaikkien \n"+
+                "   kurssien numerot välilyönnille erotettuina.   \n"+
+                "                                                 \n"+
+                "*************************************************");
+        
+		String cmd;
+		if(!sc.hasNextLine())
+        {
+            System.out.println("Ei komentoa, palaat takaisin päävalikkoon");
+            return;
+        }
+		cmd = sc.nextLine();
+        String[] ids = cmd.split("[ ]");
+        for(int i = 0; i < ids.length; i++) 
+        {
+            int id = Integer.parseInt(ids[i]);
+            Course c = this.calendar.allCourses.get(id - 1);
+            System.out.println("Anna lisätietoja kurssille " + c.coursename);
+            System.out.println("Anna opintopisteiden määrä (pelkkä luku):");
+            int cp = 0;
+            cmd = sc.nextLine();
+            try
+            {
+                cp = Integer.parseInt(cmd);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Vääränlainen syöte, 0 opintopistettä rekisteröity");
+            }
+            c.setCoursepoints(cp);
+            System.out.println("Anna tenttipäivämäärä muodossa dd.mm.yyyy:");
+            cmd = sc.nextLine();
+            GregorianCalendar date = new GregorianCalendar();
+            try
+            {
+                String[] datestring = cmd.split("[.]");
+                int year = Integer.parseInt(datestring[2]);
+                int month = Integer.parseInt(datestring[1]);
+                int day = Integer.parseInt(datestring[0]);
+                date.set(year, month, day);
+
+            }
+            catch (Exception e)
+            {
+                System.out.println("Vääränlainen päivämäärä. Kurssikoe on tämän päivän päivämäärällä");
+            }
+            c.setExamDate(date);
+            
+            this.calendar.add(c);
+        }
+    }
 
 	private void pressEnter()
 	{
