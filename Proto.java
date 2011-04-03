@@ -49,11 +49,17 @@ public class Proto
 			printCourses();
 		else if (cmd.equalsIgnoreCase("T"))
 			importAndPrintCourses();
+		else if (cmd.equalsIgnoreCase("R"))
+			createCourseReport();
         else
             System.out.println("Virheellinen komento");
 	}
-	
-	
+
+    private void createCourseReport()
+    {
+        this.calendar.toCSVFile("raportti.csv");
+    }
+
 	private void addCourse()
 	{
 		System.out.println("Anna kurssin nimi");
