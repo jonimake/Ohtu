@@ -2,6 +2,10 @@ package Ohtu;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.io.FileWriter;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 
 /*
@@ -33,7 +37,7 @@ public class OhtuCalendar
 		courses.add(course);
 		return true;
 	}
-	
+
 	public boolean contains(Course course)
 	{
 		for (Course c : courses)
@@ -51,6 +55,45 @@ public class OhtuCalendar
             System.out.println(i + ": " + c.coursename);
             i++;
         }
+    }
+
+    private void writeStringToFile(String s, String filename) throws IOException
+    {
+        File f = new File(filename);
+        if(f.exists())
+            f.delete();
+
+        BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+        out.write(s);
+        out.close();
+    }
+
+    public void toCSVFile(String filename)
+    {
+        String s = "";
+        s += "Kurssin nimi,Alkamispäivämäärä,";
+        s += "Loppumispäivämäärä,Opintopisteet,";
+        s += "Kurssikoe\n";
+
+        for(Course c : this.courses)
+        {
+            s += c.coursename + ",";
+            s += c.dateToString(c.getStartDate()) + ",";
+            s += c.dateToString(c.getEndDate()) + ",";
+            s += c.getCoursepoints() + ",";
+            s += c.dateToString(c.getExamDate());
+            s += "\n";
+        }
+
+        try
+        {
+            writeStringToFile(s, filename);
+        }
+        catch (Exception e)
+        {
+            System.out.println("Kurssiraportin luominen ei onniustunut, kokeile uudestaan");
+        }
+        System.out.println("Kurssiraportti luotu");
     }
 	
 	public String toString()
