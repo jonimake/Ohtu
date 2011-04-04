@@ -1,12 +1,21 @@
 package Ohtu;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Event implements Comparable
+public class Event implements Comparable, Serializable
 {
 	private GregorianCalendar eventDate;
-	public String description;
+	private String description;
+	public String getDescription()
+	{
+		return description;
+	}
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
 	
 
 	public Event()
@@ -27,6 +36,7 @@ public class Event implements Comparable
 	
 	
 	
+	@Override
 	public String toString() 
 	{
 		String tmp = "";

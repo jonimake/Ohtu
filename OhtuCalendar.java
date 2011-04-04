@@ -1,24 +1,36 @@
 package Ohtu;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.BufferedWriter;
 import java.io.IOException;
-
+import java.io.Serializable;
 
 /*
- * T‰h‰n luokkaan tallennetaan eri Kurssi-olioita.
- * Luokka on singletoni, eli siit‰ ei voi luoda kuin yhden olion joka saadaan
- * k‰siin metodilla getInstance();
+ * T√§h√§n luokkaan tallennetaan eri Kurssi-olioita.
+ * Luokka on singletoni, eli siit√§ ei voi luoda kuin yhden olion joka saadaan
+ * k√§siin metodilla getInstance();
  */
-public class OhtuCalendar
+public class OhtuCalendar implements Serializable
 {
-	private static final OhtuCalendar instance = new OhtuCalendar();
+	public static final String DATAFILE = "Calendar.dat";
+	private static final OhtuCalendar instance;
 	ArrayList<Course> courses;
 	ArrayList<Course> allCourses;
+
+	static
+	{
+		OhtuCalendar inst = null;
+		try
+		{
+			inst = Serialization.openCalendar(DATAFILE);
+		} catch (Exception ex)
+		{
+			System.out.println("Virhe avattaessa tiedostoa: " + ex.toString());
+		}
+		instance = inst != null ? inst : new OhtuCalendar();
+	}
 
 	private OhtuCalendar()
 	{
@@ -87,8 +99,8 @@ public class OhtuCalendar
     public void toCSVFile(String filename)
     {
         String s = "";
-        s += "Kurssin nimi,Alkamisp‰iv‰m‰‰r‰,";
-        s += "Loppumisp‰iv‰m‰‰r‰,Opintopisteet,";
+        s += "Kurssin nimi,Alkamisp√§iv√§m√§√§r√§,";
+        s += "Loppumisp√§iv√§m√§√§r√§,Opintopisteet,";
         s += "Kurssikoe\n";
 
         for(Course c : this.courses)
@@ -117,9 +129,9 @@ public class OhtuCalendar
 		Event e = new Event();
 		System.out.println("Anna tapahtuman nimi/kuvaus");
 		String event = Proto.sc.nextLine();
-		e.description = event;
+		e.setDescription(event);
 		
-		System.out.println("Anna p‰iv‰m‰‰r‰ muotoa dd.mm.yy");
+		System.out.println("Anna p√§iv√§m√§√§r√§ muotoa dd.mm.yy");
 		String str = Proto.sc.nextLine();
 		String delims = "[.]";
 		String[] tokens = str.split(delims);
@@ -141,12 +153,13 @@ public class OhtuCalendar
 		courses.get(courses.indexOf(course)).events.add(e);
 	}
 
+	@Override
 	public String toString()
 	{
 		String tmp = "";
         if(courses.size() == 0) 
         {
-            tmp = "Kursseja ei ole lis‰tty";
+            tmp = "Kursseja ei ole lis√§tty";
             return tmp;
         }
 

@@ -1,13 +1,10 @@
 package Ohtu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class Course
+public class Course implements Serializable
 {
 	private GregorianCalendar startdate, enddate; 
 	private int coursecode;
@@ -52,8 +49,8 @@ public class Course
 		int day = Integer.parseInt(tokens[0].trim()); 
 		
 		if(isValidDate(year, month, day))
-			this.startdate.set(year, (month-1), day); //gregorian calendar käyttää kuukaudelle väliä 0-11
-		else System.out.println("Anna kunnon päivämäärä");
+			this.startdate.set(year, (month-1), day); //gregorian calendar kï¿½yttï¿½ï¿½ kuukaudelle vï¿½liï¿½ 0-11
+		else System.out.println("Anna kunnon pï¿½ivï¿½mï¿½ï¿½rï¿½");
 	}
 
 	public void setEndDate(String str)
@@ -66,8 +63,8 @@ public class Course
 		int day = Integer.parseInt(tokens[0].trim()); 
 		
 		if(isValidDate(year, month, day))
-			this.enddate.set(year, (month-1), day);  //gregorian calendar käyttää kuukaudelle väliä 0-11
-		else System.out.println("Anna kunnon päivämäärä");
+			this.enddate.set(year, (month-1), day);  //gregorian calendar kï¿½yttï¿½ï¿½ kuukaudelle vï¿½liï¿½ 0-11
+		else System.out.println("Anna kunnon pï¿½ivï¿½mï¿½ï¿½rï¿½");
 		
 	}
 	
@@ -126,12 +123,13 @@ public class Course
 	}
 	
 
+	@Override
 	public String toString() 
 	{
 		String ret = "";
 		ret += "Nimi: " + this.coursename + "\n";
-		ret += "\tAloituspäivämäärä: " + dateToString(this.startdate) + "\n";
-		ret += "\tPäättymispäivämäärä: " + dateToString(this.enddate) + "\n";
+		ret += "\tAloituspï¿½ivï¿½mï¿½ï¿½rï¿½: " + dateToString(this.startdate) + "\n";
+		ret += "\tPï¿½ï¿½ttymispï¿½ivï¿½mï¿½ï¿½rï¿½: " + dateToString(this.enddate) + "\n";
 		ret += "\tOpintopisteet: " + this.coursepoints + "\n";
 		ret += "\tTentin ajankohta: " + dateToString(this.examdate) + "\n";
 		return ret;
