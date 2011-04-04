@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
 
-import com.google.gson.Gson;
+import com.google.gson.*;;
 
 public class CourseImporter
 {

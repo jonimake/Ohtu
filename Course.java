@@ -1,5 +1,6 @@
 package Ohtu;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,13 +10,12 @@ import java.util.Date;
 public class Course
 {
 	private GregorianCalendar startdate, enddate; 
-	//private DateFormat start, end;
 	private int coursecode;
 	public String coursename;
 	private int coursepoints;
 	private GregorianCalendar examdate;
-	
-	
+	public ArrayList<Event> events;
+
 	public Course(int i, String name)
 	{
 		this.coursecode = i;
@@ -24,40 +24,65 @@ public class Course
 		this.enddate = new GregorianCalendar();
 		this.coursepoints = 0;
 		this.examdate = new GregorianCalendar();
-		//this.start = DateFormat.getDateInstance();
-		//this.end = DateFormat.getDateInstance();
+		this.events = new ArrayList<Event>();
 	}
-	
+
 	public void setCoursepoints(int cp)
 	{
 		this.coursepoints = cp;
 	}
-	
+
 	public int getCoursepoints()
 	{
 		return this.coursepoints;
 	}
-	
+
 	public void setStartDate(int year, int month, int date)
 	{
 		this.startdate.set(year, month, date);
 	}
-	
+
 	public void setStartDate(String str)
 	{
 		String delims = "[.]";
 		String[] tokens = str.split(delims);
-		this.startdate.set(Integer.parseInt(tokens[2].trim()), Integer.parseInt(tokens[1].trim()), Integer.parseInt(tokens[0].trim())); 
 		
+		int year = Integer.parseInt(tokens[2].trim());
+		int month = Integer.parseInt(tokens[1].trim());
+		int day = Integer.parseInt(tokens[0].trim()); 
+		
+		if(isValidDate(year, month, day))
+			this.startdate.set(year, (month-1), day); //gregorian calendar k‰ytt‰‰ kuukaudelle v‰li‰ 0-11
+		else System.out.println("Anna kunnon p‰iv‰m‰‰r‰");
 	}
-	
+
 	public void setEndDate(String str)
 	{
 		String delims = "[.]";
 		String[] tokens = str.split(delims);
-		this.enddate.set(Integer.parseInt(tokens[2].trim()), Integer.parseInt(tokens[1].trim()), Integer.parseInt(tokens[0].trim())); 
+		
+		int year = Integer.parseInt(tokens[2].trim());
+		int month = Integer.parseInt(tokens[1].trim());
+		int day = Integer.parseInt(tokens[0].trim()); 
+		
+		if(isValidDate(year, month, day))
+			this.enddate.set(year, (month-1), day);  //gregorian calendar k‰ytt‰‰ kuukaudelle v‰li‰ 0-11
+		else System.out.println("Anna kunnon p‰iv‰m‰‰r‰");
+		
 	}
 	
+	private boolean isValidDate(int y, int m, int d)
+	{
+		if(y < 1)
+			return false;
+		else if(m < 1 || m > 12)
+			return false;
+		else if(d < 1 || d > 31)
+			return false;
+		else 
+			return true;
+	}
+
 	public void setExamDate(GregorianCalendar g)
 	{
 		this.examdate = g;
@@ -72,12 +97,12 @@ public class Course
 	{
 		this.enddate.set(year, month, day);
 	}
-	
+
 	public GregorianCalendar getStartDate()
 	{
 		return this.startdate;
 	}
-	
+
 	public GregorianCalendar getEndDate()
 	{
 		return this.enddate;
@@ -87,48 +112,28 @@ public class Course
 	{
 		return this.examdate;
 	}
-	
+
 	public String dateToString(GregorianCalendar c)
 	{
-		/*
-		int m = c.get(GregorianCalendar.MONTH) + 1;
-		 int d = c.get(GregorianCalendar.DATE);
-		 String mm = Integer.toString(m);
-		 String dd = Integer.toString(d);
-		 return "" + (d < 10 ? "0" + dd : dd) + "." +
-		     (m < 10 ? "0" + mm : mm) + "." + c.get(GregorianCalendar.YEAR);
-		*/
-		
 		String tmp;
-		tmp = c.get(GregorianCalendar.DATE) +"."+ c.get(GregorianCalendar.MONTH) +"."+ c.get(GregorianCalendar.YEAR) ;
+		tmp = c.get(GregorianCalendar.DATE) +"."+ (c.get(GregorianCalendar.MONTH)+1) +"."+ c.get(GregorianCalendar.YEAR) ;
 		return tmp;
 	}
 	
+	public ArrayList<Event> getEvents()
+	{
+		return this.events;
+	}
+	
+
 	public String toString() 
 	{
 		String ret = "";
 		ret += "Nimi: " + this.coursename + "\n";
-		ret += "\tAloitusp√§iv√§m√§√§r√§: " + dateToString(this.startdate) + "\n";
-		ret += "\tP√§√§ttymisp√§iv√§m√§√§r√§: " + dateToString(this.enddate) + "\n";
+		ret += "\tAloitusp‰iv‰m‰‰r‰: " + dateToString(this.startdate) + "\n";
+		ret += "\tP‰‰ttymisp‰iv‰m‰‰r‰: " + dateToString(this.enddate) + "\n";
 		ret += "\tOpintopisteet: " + this.coursepoints + "\n";
 		ret += "\tTentin ajankohta: " + dateToString(this.examdate) + "\n";
 		return ret;
-	}
-	
-	private class Event
-	{
-		private GregorianCalendar eventDate;
-		public boolean repeatWeekly;
-		
-		public Event()
-		{
-			this.eventDate = new GregorianCalendar();
-			
-		}
-		
-		public void setTime(int year, int month, int day, int hour, int minute)
-		{
-			this.eventDate.set(year, month, day, hour, minute);
-		}
 	}
 }

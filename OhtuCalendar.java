@@ -2,6 +2,7 @@ package Ohtu;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.BufferedWriter;
@@ -9,41 +10,56 @@ import java.io.IOException;
 
 
 /*
- * T√§h√§n luokkaan tallennetaan eri Kurssi-olioita.
- * Luokka on singletoni, eli siit√§ ei voi luoda kuin yhden olion joka saadaan
- * k√§siin metodilla getInstance();
+ * T‰h‰n luokkaan tallennetaan eri Kurssi-olioita.
+ * Luokka on singletoni, eli siit‰ ei voi luoda kuin yhden olion joka saadaan
+ * k‰siin metodilla getInstance();
  */
 public class OhtuCalendar
 {
 	private static final OhtuCalendar instance = new OhtuCalendar();
 	ArrayList<Course> courses;
 	ArrayList<Course> allCourses;
-	
+
 	private OhtuCalendar()
 	{
+		//private Scanner sc = new Scanner(System.in);
 		this.courses = new ArrayList<Course>();
 		this.allCourses = new ArrayList<Course>();
 		CourseImporter im = new CourseImporter("http://www.cs.helsinki.fi/u/tkairi/rajapinta/courses.json");
 		this.allCourses = im.importCourses();
 	}
-	
+
 	public static OhtuCalendar getInstance() 
 	{
         return instance;
     }
-	
+
 	public boolean add(Course course)
 	{
 		courses.add(course);
 		return true;
 	}
-
+	/*
+	public course get(String str)
+	{
+		
+	}
+	*/
 	public boolean contains(Course course)
 	{
 		for (Course c : courses)
 			if (c.coursename.equalsIgnoreCase(course.coursename))
 				return true;
-		
+
+		return false;
+	}
+	
+	public boolean contains(String course)
+	{
+		for (Course c : courses)
+			if (c.coursename.equalsIgnoreCase(course))
+				return true;
+
 		return false;
 	}
 
@@ -71,8 +87,8 @@ public class OhtuCalendar
     public void toCSVFile(String filename)
     {
         String s = "";
-        s += "Kurssin nimi,Alkamisp√§iv√§m√§√§r√§,";
-        s += "Loppumisp√§iv√§m√§√§r√§,Opintopisteet,";
+        s += "Kurssin nimi,Alkamisp‰iv‰m‰‰r‰,";
+        s += "Loppumisp‰iv‰m‰‰r‰,Opintopisteet,";
         s += "Kurssikoe\n";
 
         for(Course c : this.courses)
@@ -95,21 +111,50 @@ public class OhtuCalendar
         }
         System.out.println("Kurssiraportti luotu");
     }
-	
+    
+    public void addEvent(Course course)
+	{	
+		Event e = new Event();
+		System.out.println("Anna tapahtuman nimi/kuvaus");
+		String event = Proto.sc.nextLine();
+		e.description = event;
+		
+		System.out.println("Anna p‰iv‰m‰‰r‰ muotoa dd.mm.yy");
+		String str = Proto.sc.nextLine();
+		String delims = "[.]";
+		String[] tokens = str.split(delims);
+		
+		int year = Integer.parseInt(tokens[2].trim());
+		int month = Integer.parseInt(tokens[1].trim());
+		int day = Integer.parseInt(tokens[0].trim()); 
+		
+		System.out.println("Anna aika muotoa hh.mm");
+		String time = Proto.sc.nextLine();
+		String[] tokens2 = str.split(delims);
+		
+		int hour = Integer.parseInt(tokens2[0]);
+		int minute = Integer.parseInt(tokens2[1]);
+		
+		e.setTime(year, month, day, hour, minute);
+		
+		
+		courses.get(courses.indexOf(course)).events.add(e);
+	}
+
 	public String toString()
 	{
-		String tmp = new String();
+		String tmp = "";
         if(courses.size() == 0) 
         {
-            tmp = "Kursseja ei ole lis√§tty";
+            tmp = "Kursseja ei ole lis‰tty";
             return tmp;
         }
 
 		for (Course c : courses)
 		{
-			tmp = tmp + c.toString() + "\n";
+			tmp += courses.indexOf(c)+": "+c.toString() + "\n";
 		}
-		
+
 		return tmp;
 	}
 }

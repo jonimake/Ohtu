@@ -4,17 +4,17 @@ import java.util.GregorianCalendar;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Calendar;
-
+import java.util.Collections;
 
 /*
- * Kalenteriohjelman k√§li-luokka
+ * Kalenteriohjelman k‰li-luokka
  */
 public class Proto
 {
 	OhtuCalendar calendar;
-	private Scanner sc;
+	public static Scanner sc;
 	private boolean quit;
-	
+
 	public Proto()
 	{
 		this.sc = new Scanner(System.in);
@@ -24,7 +24,7 @@ public class Proto
 		//calendar.add(new Course(0, "Tietorakenteet"));
 		//calendar.add(new Course(0, "Ohjelmistotuotanto"));
 	}
-	
+
 	public void loop()
 	{
 		while (!quit)
@@ -33,7 +33,7 @@ public class Proto
 			readCommand();
 		}
 	}
-	
+
 	private void readCommand()
 	{
 		String cmd;
@@ -51,6 +51,8 @@ public class Proto
 			importAndPrintCourses();
 		else if (cmd.equalsIgnoreCase("R"))
 			createCourseReport();
+		else if (cmd.equalsIgnoreCase("V"))
+			printWeek();
         else
             System.out.println("Virheellinen komento");
 	}
@@ -65,23 +67,29 @@ public class Proto
 		System.out.println("Anna kurssin nimi");
 		String coursename = sc.nextLine();
 		Course course = new Course(0, coursename);
-		
+
 		if(calendar.contains(course))
-			System.out.println("Kurssi on jo kalenterissasi, haluatko lis√§t√§ sille viikottaisen tapahtuman?");
+		{
+			System.out.println("Kurssi on jo kalenterissasi, lis‰t‰‰n sille viikottaisen tapahtuman");
+			calendar.addEvent(course);
+		}
 		
-		System.out.println("Anna alkupvm muotoa dd.mm.yyyy");
-		String str; 
-		
-		str = sc.nextLine();
-		course.setStartDate(str);
-		
-		System.out.println("Anna loppupvm muotoa dd.mm.yyyy");
-		str = sc.nextLine();
-		course.setEndDate(str);
-		
-		calendar.add(course);
-	}
+		else
+		{
+			System.out.println("Anna alkupvm muotoa dd.mm.yyyy");
+			String str; 
 	
+			str = sc.nextLine();
+			course.setStartDate(str);
+	
+			System.out.println("Anna loppupvm muotoa dd.mm.yyyy");
+			str = sc.nextLine();
+			course.setEndDate(str);
+	
+			calendar.add(course);
+		}
+	}
+
 	private void printCourses()
 	{
 		System.out.println(calendar.toString());
@@ -94,18 +102,18 @@ public class Proto
         System.out.println(
                 "*************************************************\n"+		
                 "                                                 \n"+
-                "   Rekister√∂inti:                                \n"+
+                "   Rekisterˆinti:                                \n"+
                 "   Anna sen kurssin numero jolle haluat          \n"+
-                "   osallistua. Jos haluat rekister√∂ity√§ monelle  \n"+
+                "   osallistua. Jos haluat rekisterˆity‰ monelle  \n"+
                 "   kurssille samalla kertaa, niin annan kaikkien \n"+
-                "   kurssien numerot v√§lily√∂nnille erotettuina.   \n"+
+                "   kurssien numerot v‰lilyˆnnille erotettuina.   \n"+
                 "                                                 \n"+
                 "*************************************************");
         
 		String cmd;
 		if(!sc.hasNextLine())
         {
-            System.out.println("Ei komentoa, palaat takaisin p√§√§valikkoon");
+            System.out.println("Ei komentoa, palaat takaisin p‰‰valikkoon");
             return;
         }
 		cmd = sc.nextLine();
@@ -114,8 +122,8 @@ public class Proto
         {
             int id = Integer.parseInt(ids[i]);
             Course c = this.calendar.allCourses.get(id - 1);
-            System.out.println("Anna lis√§tietoja kurssille " + c.coursename);
-            System.out.println("Anna opintopisteiden m√§√§r√§ (pelkk√§ luku):");
+            System.out.println("Anna lis‰tietoja kurssille " + c.coursename);
+            System.out.println("Anna opintopisteiden m‰‰r‰ (pelkk‰ luku):");
             int cp = 0;
             cmd = sc.nextLine();
             try
@@ -124,10 +132,10 @@ public class Proto
             }
             catch(Exception e)
             {
-                System.out.println("V√§√§r√§nlainen sy√∂te, 0 opintopistett√§ rekister√∂ity");
+                System.out.println("V‰‰r‰nlainen syˆte, 0 opintopistett‰ rekisterˆity");
             }
             c.setCoursepoints(cp);
-            System.out.println("Anna tenttip√§iv√§m√§√§r√§ muodossa dd.mm.yyyy:");
+            System.out.println("Anna tenttip‰iv‰m‰‰r‰ muodossa dd.mm.yyyy:");
             cmd = sc.nextLine();
             GregorianCalendar date = new GregorianCalendar();
             try
@@ -141,17 +149,36 @@ public class Proto
             }
             catch (Exception e)
             {
-                System.out.println("V√§√§r√§nlainen p√§iv√§m√§√§r√§. Kurssikoe on t√§m√§n p√§iv√§n p√§iv√§m√§√§r√§ll√§");
+                System.out.println("V‰‰r‰nlainen p‰iv‰m‰‰r‰. Kurssikoe on t‰m‰n p‰iv‰n p‰iv‰m‰‰r‰ll‰");
             }
             c.setExamDate(date);
             
             this.calendar.add(c);
         }
     }
+	
+	public void printWeek()
+	{
+		System.out.println("Tulostetaan viikko");
+		ArrayList<Event> week = new ArrayList<Event>();
+		for(Course c : calendar.courses)
+        {
+			System.out.println(c.coursename);
+			week.addAll(c.getEvents());
+        }
+		
+		//Collections.sort(week, null);
+		
+		for(Event we : week)
+		{
+			System.out.println(we.description);
+			System.out.println(we.toString());
+		}
+	}
 
 	private void pressEnter()
 	{
-		System.out.println("Paina entteri√§ jatkaaksesi");
+		System.out.println("Paina entteri‰ jatkaaksesi");
 		String dummy = sc.nextLine();
 	}
 
@@ -161,9 +188,9 @@ public class Proto
 		"*************************************************\n"+		
 		"   Kalenteri                                     \n"+
 		"                                                 \n"+
-		"   L   Lis√§√§ kurssi                              \n"+
-		"   N   N√§yt√§ kalenteri                           \n"+
-		"   V   Vaihda n√§kym√§√§                            \n"+
+		"   L   Lis‰‰ kurssi tai tapahtuma kurssille      \n"+
+		"   N   N‰yt‰ kalenteri                           \n"+
+		"   V   Vaihda n‰kym‰‰                            \n"+
 		"   T   Tuo kurssit                               \n"+
 		"   R   Luo raportti                              \n"+
 		"   Q   Lopeta                                    \n"+
@@ -171,6 +198,8 @@ public class Proto
 		"*************************************************");
 	}
 	
+	
+
 	/**
 	 * @param args
 	 */
