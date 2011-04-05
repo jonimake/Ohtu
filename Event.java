@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 public class Event implements Comparable, Serializable
 {
-	private GregorianCalendar eventDate;
+	public GregorianCalendar eventDate;
 	private String description;
 	
 	public Event()
@@ -42,7 +42,7 @@ public class Event implements Comparable, Serializable
 		String r = "";
 		r += this.description+"\n";
 		r += this.eventDate.get(GregorianCalendar.DATE)+".";
-		r += this.eventDate.get(GregorianCalendar.MONTH)+".";
+		r += (this.eventDate.get(GregorianCalendar.MONTH)+1)+".";
 		r += this.eventDate.get(GregorianCalendar.YEAR)+"\n";
 		r += "Klo: ";
 		r += this.eventDate.get(GregorianCalendar.HOUR_OF_DAY)+":";

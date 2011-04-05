@@ -87,7 +87,7 @@ public class Course implements Serializable
 
 	public void setExamDate(int year, int month, int day)
 	{
-		this.examdate.set(year, month, day);
+		this.examdate.set(year, (month-1), day);
 	}
 
 	public void setEndDate(int year, int month, int day)

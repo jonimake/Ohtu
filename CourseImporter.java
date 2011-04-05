@@ -35,14 +35,18 @@ public class CourseImporter
         {
             Course temp = new Course(0, c.getCourse());
 
+            /*
+             * GregorianCalendar käyttää väliä 0-11 kuukausille
+             * tämän takia pitää vähentää 1
+             */
             String[] startdate = c.getStart_date().split("[-]");
             int startyear = Integer.parseInt(startdate[0]);
-            int startmonth = Integer.parseInt(startdate[1]);
+            int startmonth = Integer.parseInt(startdate[1])-1;
             int startday = Integer.parseInt(startdate[2]);
 
             String[] enddate = c.getEnd_date().split("[-]");
             int endyear = Integer.parseInt(enddate[0]);
-            int endmonth = Integer.parseInt(enddate[1]);
+            int endmonth = Integer.parseInt(enddate[1])-1;
             int endday = Integer.parseInt(enddate[2]);
 
             temp.setStartDate(startyear, startmonth, startday);

@@ -77,6 +77,18 @@ public class OhtuCalendar implements Serializable
 		return null;
 	}
 	
+	public Course getCourse(Course course)
+	{
+		for(int i = 0; i < courses.size(); i++)
+		{
+			Course c = courses.get(i);
+			if(c.coursename.equalsIgnoreCase(course.coursename))
+				return c;
+		}
+		return null;
+	}
+	
+	
 	public boolean contains(String course)
 	{
 		for (Course c : courses)

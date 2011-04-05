@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class Proto
 {
 	OhtuCalendar calendar;
 	public static Scanner sc;
-	private boolean quit;
+	private boolean quit, weekView, monthView;
 
 	public Proto()
 	{
@@ -47,16 +48,16 @@ public class Proto
 		System.out.println("Annoit komennon "+cmd);
 		if (cmd.equalsIgnoreCase("q"))
 			this.quit = true;
-		else if (cmd.equalsIgnoreCase("L"))
-			addCourse();
+		else if (cmd.equalsIgnoreCase("M"))
+			modify();
 		else if (cmd.equalsIgnoreCase("N"))
-			printCourses();
+			printView();
 		else if (cmd.equalsIgnoreCase("T"))
 			importAndPrintCourses();
 		else if (cmd.equalsIgnoreCase("R"))
 			createCourseReport();
 		else if (cmd.equalsIgnoreCase("V"))
-			printWeek();
+			switchViewMode();
         else
             System.out.println("Virheellinen komento");
 	}
@@ -64,6 +65,25 @@ public class Proto
     private void createCourseReport()
     {
         this.calendar.toCSVFile("raportti.csv");
+    }
+    
+    private void switchViewMode()
+    {
+    	if(weekView)
+    	{
+    		weekView = false;
+    		monthView = true;
+    	}
+    	else if(monthView)
+    	{
+    		weekView = false;
+    		monthView = false;
+    	}
+    	else
+    	{
+    		weekView = true;
+    		monthView = false;
+    	}
     }
 
 	private void addCourse()
@@ -106,7 +126,7 @@ public class Proto
         System.out.println(
                 "*************************************************\n"+		
                 "                                                 \n"+
-                "   Rekisteräinti:                                \n"+
+                "   Rekisteröinti:                                \n"+
                 "   Anna sen kurssin numero jolle haluat          \n"+
                 "   osallistua. Jos haluat rekisteräityä monelle  \n"+
                 "   kurssille samalla kertaa, niin annan kaikkien \n"+
@@ -137,9 +157,45 @@ public class Proto
         }
     }
 	
-	public void printWeek()
+	private String viewMode()
 	{
-		System.out.println("Tulostetaan viikko");
+		String r = "";
+		if(weekView)
+		{
+			r += "Viikkonäkymä";
+		}
+		else if(monthView)
+		{
+			r += "Kuukausinäkymä";
+		}
+		else
+		{
+			r += "Vuosinäkymä";
+		}
+		return r;
+	}
+	
+	public void printView()
+	{
+		//näitä kahta gregoriankalenteria vertaillaan
+		//event olioiden päivään, jos osuu viikon
+		//sisälle, lisätään viikkolistaan
+		GregorianCalendar g = (GregorianCalendar) GregorianCalendar.getInstance(); 	
+		GregorianCalendar g2 = (GregorianCalendar) GregorianCalendar.getInstance();	
+		
+		//rollataan toista vertailukalenteria eteenpäin viewmoden määräämän 
+		if(weekView)																			
+			g2.roll(GregorianCalendar.DATE, 7);
+		else if(monthView)
+			g2.roll(GregorianCalendar.MONTH, 1);
+		else
+		{
+			printCourses();
+			return;
+		}
+			//g2.roll(GregorianCalendar.YEAR, 1);
+		//g = (GregorianCalendar) GregorianCalendar.getInstance();
+		
 		ArrayList<Event> week = new ArrayList<Event>();
 		
 		for(int i = 0; i < calendar.courses.size(); i++)
@@ -148,14 +204,16 @@ public class Proto
 			for(int o = 0; o < c.events.size(); o++)
 			{
 				Event e = c.events.get(o);
-				week.add(e);
+				if(e.eventDate.after(g) && e.eventDate.before(g2))
+					week.add(e);
 			}
         }
 		
 		for(int x = 0; x < week.size(); x++)
 		{
-			System.out.println(week.get(x).toString());
+			System.out.println(week.get(x).toString()+"\n");
 		}
+		pressEnter();
 	}
 
 	private void pressEnter()
@@ -163,19 +221,104 @@ public class Proto
 		System.out.println("Paina entteriä jatkaaksesi");
 		String dummy = sc.nextLine();
 	}
+	
+	public void modify()
+	{	System.out.println(
+		"\t (P) Poista kurssi                             \n"+
+		"\t (M) Muuta  kurssin tietoja                    \n"+
+		"\t (L) Lisää tapahtuma kurssille                 \n"+
+		"\t (T) Lisää muu tapahtuma                       \n");
+
+		String cmd;
+		if(!sc.hasNextLine())
+			return;
+		cmd = sc.nextLine();
+		System.out.println("Annoit komennon "+cmd);
+		
+		if (cmd.equalsIgnoreCase("p"))
+		{
+			System.out.println("Anna kurssin nimi");
+			cmd = sc.nextLine();
+			
+			Course course = new Course(0, cmd);
+
+			if(calendar.contains(course))
+			{
+				
+				System.out.println("Poistetaan kurssi");
+				calendar.courses.remove(calendar.getCourse(course));
+			}
+			else 
+				System.out.println("Kurssia ei löytynyt listalta");
+		}
+		
+		else if (cmd.equalsIgnoreCase("m"))
+		{
+			System.out.println("Anna kurssin nimi");
+			cmd = sc.nextLine();
+			
+			Course course = new Course(0, cmd);
+
+			if(calendar.contains(course))
+			{
+				System.out.println("Anna päivämäärä muotoa dd.mm.yy");
+				String str = Proto.sc.nextLine();
+				String delims = "[.]";
+				String[] tokens = str.split(delims);
+				
+				int year = Integer.parseInt(tokens[2].trim());
+				int month = Integer.parseInt(tokens[1].trim());
+				int day = Integer.parseInt(tokens[0].trim()); 
+				
+				calendar.getCourse(course).setExamDate(year,month,day);
+				//calendar.courses.get(calendar.courses.indexOf(course)).setExamDate(year, month, day);
+				
+				System.out.println("Anna noppamäärä");
+				int cp = InputUtils.askNumber("Anna opintopisteiden määrä (pelkkä luku)", sc);
+				calendar.getCourse(course).setCoursepoints(cp);
+				//calendar.courses.get(calendar.courses.indexOf(course)).setCoursepoints(cp);
+			}
+			else 
+				System.out.println("Kurssia ei löytynyt listalta");
+		}
+		
+		else if (cmd.equalsIgnoreCase("l"))
+		{
+			System.out.println("Anna kurssin nimi");
+			cmd = sc.nextLine();
+			Course course = new Course(0, cmd);
+
+			if(calendar.contains(course))
+			{
+				calendar.addEvent(course);
+			}
+			else
+				System.out.println("Kurssia ei löytynyt listalta");
+		}
+		else if (cmd.equalsIgnoreCase("t"))
+		{
+			System.out.println("Todo");
+		}
+		
+		else 
+			System.out.println("Et antanut kunnon komentoa");
+	}
 
 	public void printMenu()
 	{
 		System.out.println(
 		"*************************************************\n"+		
-		"   Kalenteri                                     \n"+
+		"\t Kalenteri                                     \n"+
 		"                                                 \n"+
-		"   L   Lisää kurssi tai tapahtuma kurssille      \n"+
-		"   N   Näytä kalenteri                           \n"+
-		"   V   Vaihda näkymää                            \n"+
-		"   T   Tuo kurssit                               \n"+
-		"   R   Luo raportti                              \n"+
-		"   Q   Lopeta                                    \n"+
+		"\t "+viewMode()+                                 "\n"+
+		"                                                 \n"+
+		"\t M   Lisää tai muuta tapahtumia/kursseja       \n"+
+		//"\t P   Poista kurssi tai muu tapahtuma           \n"+
+		"\t N   Näytä kalenteri                           \n"+
+		"\t V   Vaihda näkymää                            \n"+
+		"\t T   Tuo kurssit                               \n"+
+		"\t R   Luo raportti                              \n"+
+		"\t Q   Lopeta                                    \n"+
 		"                                                 \n"+
 		"*************************************************");
 	}
