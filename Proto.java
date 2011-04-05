@@ -141,18 +141,20 @@ public class Proto
 	{
 		System.out.println("Tulostetaan viikko");
 		ArrayList<Event> week = new ArrayList<Event>();
-		for(Course c : calendar.courses)
+		
+		for(int i = 0; i < calendar.courses.size(); i++)
         {
-			System.out.println(c.coursename);
-			week.addAll(c.getEvents());
+			Course c = calendar.courses.get(i);
+			for(int o = 0; o < c.events.size(); o++)
+			{
+				Event e = c.events.get(o);
+				week.add(e);
+			}
         }
 		
-		//Collections.sort(week, null);
-		
-		for(Event we : week)
+		for(int x = 0; x < week.size(); x++)
 		{
-			System.out.println(we.getDescription());
-			System.out.println(we.toString());
+			System.out.println(week.get(x).toString());
 		}
 	}
 

@@ -66,6 +66,17 @@ public class OhtuCalendar implements Serializable
 		return false;
 	}
 	
+	public Course getCourse(String name)
+	{
+		for(int i = 0; i < courses.size(); i++)
+		{
+			Course c = courses.get(i);
+			if(c.coursename.equalsIgnoreCase(name))
+				return c;
+		}
+		return null;
+	}
+	
 	public boolean contains(String course)
 	{
 		for (Course c : courses)
@@ -148,9 +159,9 @@ public class OhtuCalendar implements Serializable
 		int minute = Integer.parseInt(tokens2[1]);
 		
 		e.setTime(year, month, day, hour, minute);
-		
-		
-		courses.get(courses.indexOf(course)).events.add(e);
+		course = getCourse(course.coursename);
+		course.addEvent(e);
+		//courses.get(courses.indexOf(course)).events.add(e);
 	}
 
 	@Override

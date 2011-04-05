@@ -122,14 +122,19 @@ public class Course implements Serializable
 		return this.events;
 	}
 	
+	public void addEvent(Event e)
+	{
+		this.events.add(e);
+	}
+	
 
 	@Override
 	public String toString() 
 	{
 		String ret = "";
 		ret += "Nimi: " + this.coursename + "\n";
-		ret += "\tAloitusp�iv�m��r�: " + dateToString(this.startdate) + "\n";
-		ret += "\tP��ttymisp�iv�m��r�: " + dateToString(this.enddate) + "\n";
+		ret += "\tAloituspäivämäärä: " + dateToString(this.startdate) + "\n";
+		ret += "\tPäättymispäivämäärä: " + dateToString(this.enddate) + "\n";
 		ret += "\tOpintopisteet: " + this.coursepoints + "\n";
 		ret += "\tTentin ajankohta: " + dateToString(this.examdate) + "\n";
 		return ret;
