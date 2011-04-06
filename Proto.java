@@ -16,6 +16,8 @@ import java.util.logging.Logger;
  */
 public class Proto
 {
+	
+	
 	OhtuCalendar calendar;
 	public static Scanner sc;
 	private boolean quit, weekView, monthView;
@@ -58,10 +60,28 @@ public class Proto
 			createCourseReport();
 		else if (cmd.equalsIgnoreCase("V"))
 			switchViewMode();
+		
         else
             System.out.println("Virheellinen komento");
 	}
-
+	private void printHelp(){
+		System.out.println("OHJEET" + "\n");
+		System.out.println("Liiku alkuvalikossa kirjoittamalla ruudulle haluamasi kirjain ja paina Enter.");
+		System.out.println("Esimerkiksi. Jos haluat nähdä valitsemasi kurssit, kirjoita \"n\"  ja paina Enteriä");
+	    System.out.println("Alla listattuna lyhyet ohjeet jokaiselle komennolle:" + "\n");
+	    System.out.println("L: oman kurssin lisääminen tapahtuu kirjoittamalla komentoriville kurssin nimi." + "\n" + "Paina Enteriä." + "\n" +
+	    		"Seuraavaksi kirjoita kurssin alkamispäivämäärä muotoa dd.mm.yyyy. Esimerkiksi: 12.9.2000. Paina Enteriä." +  "\n" +
+	    		"Syötä kurssin loppumispäivämäärä samaan tapaan." + "\n");
+	    System.out.println("N: Näyttää listan kalenterissasi olevista kursseista" +"\n");
+	    System.out.println("V: Näyttää oletuksena vuosinäkymää. Näkymää voi vaihtaa painamalla Enteriä. Näkymät vaihtuvat tässä järjestyksessä: " +"\n" +
+	    		" Viikkonäkymä - kuukausinäkymä - vuosin�kym�" +"\n");
+	    System.out.println("T: Listaa kaikki tarjolla olevat kurssit ja niiden alkamisajankohdan. " + "\n" +
+	    		"Voit valita kurssin kirjoittamalla listan vasemmalta reunalta löytyvän kurssinumero näytölle" +"\n" +
+	    		"Seuraavaksi voit syöttää opintopisteiden määrän. " +
+	    		"Seuraavaksi syötä kurssin alkamispäivämäärä samaan tapaan kuin \"lisää kurssi tai tapahtuma kurssille\"" + "\n");
+	    System.out.println("R: Raportti tulostuu samaan kansioon, jossa tämä ohjelmakin sijaitsee. " +"\n"); 
+	
+	}
     private void createCourseReport()
     {
         this.calendar.toCSVFile("raportti.csv");
@@ -126,7 +146,7 @@ public class Proto
         System.out.println(
                 "*************************************************\n"+		
                 "                                                 \n"+
-                "   Rekisteröinti:                                \n"+
+                "   Rekister�inti:                                \n"+
                 "   Anna sen kurssin numero jolle haluat          \n"+
                 "   osallistua. Jos haluat rekisteräityä monelle  \n"+
                 "   kurssille samalla kertaa, niin annan kaikkien \n"+
@@ -233,14 +253,15 @@ public class Proto
 		"\t (P) Poista kurssi                             \n"+
 		"\t (M) Muuta  kurssin tietoja                    \n"+
 		"\t (L) Lisää tapahtuma kurssille                 \n"+
-		"\t (T) Lisää muu tapahtuma                       \n");
+		"\t (T) Lisää muu tapahtuma                       \n"+
+		"\t (H) Help                                       \n");
 
 		String cmd;
 		if(!sc.hasNextLine())
 			return;
 		cmd = sc.nextLine();
 		System.out.println("Annoit komennon "+cmd);
-		
+
 		if (cmd.equalsIgnoreCase("p"))
 		{
 			System.out.println("Anna kurssin nimi");
@@ -256,6 +277,15 @@ public class Proto
 			}
 			else 
 				System.out.println("Kurssia ei löytynyt listalta");
+		}
+		else if (cmd.equalsIgnoreCase("h")) {
+			System.out.println("OHJEET" +"\n");
+			System.out.println("P: Kirjoita kurrsin nimi ja paina Enter. " +"\n");
+			System.out.println("M: Voit muuttaa kurssin alkamisajankohtaa ja/tai " +
+					"opintopisteiden lukum��r��."+"\n");
+			System.out.println("L: lis�� kurrsi kirjoittamalla kurssin nimi." +"\n");
+			System.out.println("T: t�ss� voit lis�t� kalenteriin muun tapahtuman." +"\n");
+			
 		}
 		
 		else if (cmd.equalsIgnoreCase("m"))
@@ -324,6 +354,7 @@ public class Proto
 		"\t V   Vaihda näkymää                            \n"+
 		"\t T   Tuo kurssit                               \n"+
 		"\t R   Luo raportti                              \n"+
+		"\t H   Help                                      \n"+
 		"\t Q   Lopeta                                    \n"+
 		"                                                 \n"+
 		"*************************************************");
