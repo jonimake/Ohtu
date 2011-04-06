@@ -41,6 +41,30 @@ public class InputUtils
 		return luku;
 
 	}
+	public static GregorianCalendar askDate(String message)
+	{
+		Scanner sc = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
+		Date date = null;
+
+		do
+		{
+			System.out.print(message + ": ");
+			try
+			{
+				date = sdf.parse(sc.nextLine());
+			} catch (ParseException e)
+			{
+				System.out.println("Vääränlainen syöte, anna päivämäärä muodossa dd.mm.yyyy");
+				continue;
+			}
+		} while (false);
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTime(date);
+		gc.roll(GregorianCalendar.MONTH, false);
+		return gc;
+	}
+	
 	public static GregorianCalendar askDate(String message, Scanner sc)
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
@@ -60,6 +84,7 @@ public class InputUtils
 		} while (false);
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(date);
+		gc.roll(GregorianCalendar.MONTH, false);
 		return gc;
 	}
 }

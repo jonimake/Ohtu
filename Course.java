@@ -38,9 +38,16 @@ public class Course implements Serializable
 	{
 		this.startdate.set(year, month, date);
 	}
+	
+	public void setStartDate(GregorianCalendar g)
+	{
+		this.startdate = g;
+	}
+	
 
 	public void setStartDate(String str)
 	{
+		/*
 		String delims = "[.]";
 		String[] tokens = str.split(delims);
 		
@@ -51,10 +58,13 @@ public class Course implements Serializable
 		if(isValidDate(year, month, day))
 			this.startdate.set(year, (month-1), day); //gregorian calendar k�ytt�� kuukaudelle v�li� 0-11
 		else System.out.println("Anna kunnon p�iv�m��r�");
+		*/
+		this.startdate = InputUtils.askDate(str);
 	}
 
 	public void setEndDate(String str)
 	{
+		/*
 		String delims = "[.]";
 		String[] tokens = str.split(delims);
 		
@@ -65,6 +75,8 @@ public class Course implements Serializable
 		if(isValidDate(year, month, day))
 			this.enddate.set(year, (month-1), day);  //gregorian calendar k�ytt�� kuukaudelle v�li� 0-11
 		else System.out.println("Anna kunnon p�iv�m��r�");
+		*/
+		this.enddate = InputUtils.askDate(str);
 		
 	}
 	

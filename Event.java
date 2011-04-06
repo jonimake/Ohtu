@@ -27,6 +27,11 @@ public class Event implements Comparable, Serializable
 	{
 		this.eventDate.set(year, (month-1), day, hour, minute);
 	}
+	
+	public void setTime(GregorianCalendar g)
+	{
+		this.eventDate = g;
+	}
 
 	@Override
 	public int compareTo(Object e) 

@@ -25,12 +25,14 @@ public class EventTest extends TestCase
 
 	public void testGetDescription()
 	{
-		fail("Not yet implemented");
+		e.setDescription("Asd");
+		assertEquals(e.getDescription(), "Asd");
 	}
 
 	public void testSetDescription()
 	{
-		fail("Not yet implemented");
+		e.setDescription("Asd");
+		assertEquals(e.getDescription(), "Asd");
 	}
 
 	public void testEvent()

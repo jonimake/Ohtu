@@ -144,16 +144,22 @@ public class Proto
         String[] ids = cmd.split("[ ]");
         for(int i = 0; i < ids.length; i++) 
         {
+        	Course c;
             int id = Integer.parseInt(ids[i]);
-            Course c = this.calendar.allCourses.get(id - 1);
-            System.out.println("Anna lisätietoja kurssille " + c.coursename);
-            int cp = InputUtils.askNumber("Anna opintopisteiden määrä (pelkkä luku)", sc);
-            c.setCoursepoints(cp);
+            if(id >= 0 && id < this.calendar.allCourses.size())
+            {
+            	c = this.calendar.allCourses.get(id - 1);
+            	System.out.println("Anna lisätietoja kurssille " + c.coursename);
+            	int cp = InputUtils.askNumber("Anna opintopisteiden määrä (pelkkä luku)", sc);
+            	c.setCoursepoints(cp);
 
-            GregorianCalendar date = InputUtils.askDate("Anna tenttipäivämäärä muodossa dd.mm.yyyy", sc);
-            c.setExamDate(date);
+            	GregorianCalendar date = InputUtils.askDate("Anna tenttipäivämäärä muodossa dd.mm.yyyy", sc);
+            	c.setExamDate(date);
             
-            this.calendar.add(c);
+            	this.calendar.add(c);
+            }
+            else
+            	System.out.println("Kurssia ei ole listalla");
         }
     }
 	
@@ -208,7 +214,7 @@ public class Proto
 					week.add(e);
 			}
         }
-		
+		Collections.sort(week);
 		for(int x = 0; x < week.size(); x++)
 		{
 			System.out.println(week.get(x).toString()+"\n");
@@ -330,6 +336,7 @@ public class Proto
 	 */
 	public static void main(String[] args) 
 	{
+		
 		Proto proto = new Proto();
 		proto.loop();
 		try
@@ -339,5 +346,6 @@ public class Proto
 		{
 			System.out.println("Virhe tallennuksessa: " + ex.toString());
 		}
+		
 	}
 }
