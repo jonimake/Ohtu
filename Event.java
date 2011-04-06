@@ -33,12 +33,20 @@ public class Event implements Comparable, Serializable
 		this.eventDate = g;
 	}
 
-	@Override
 	public int compareTo(Object e) 
 	{
-		return this.eventDate.compareTo((Calendar) e);
+		return this.compareTo(e);
+		//return this.eventDate.compareTo((Calendar) e);
 	}
-	
+
+	public int compareTo(Event e)
+	{
+		if(this.eventDate.after(e))
+			return 1;
+		else if(this.eventDate.before(e))
+			return -1;
+		else return 0;
+	}
 	
 	
 	@Override

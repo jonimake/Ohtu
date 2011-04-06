@@ -10,8 +10,8 @@ public class AllTests
 	{
 		TestSuite suite = new TestSuite("Test for Ohtu");
 		//$JUnit-BEGIN$
-		suite.addTestSuite(InputUtilsTest.class);
 		suite.addTestSuite(ProtoTest.class);
+		suite.addTestSuite(InputUtilsTest.class);
 		suite.addTestSuite(CourseTest.class);
 		//suite.addTestSuite(CourseImporterTest.class);
 		suite.addTestSuite(EventTest.class);

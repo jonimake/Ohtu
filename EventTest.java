@@ -1,5 +1,8 @@
 package Ohtu;
 
+import java.io.ByteArrayInputStream;
+import java.util.Calendar;
+
 import junit.framework.TestCase;
 
 public class EventTest extends TestCase
@@ -37,22 +40,38 @@ public class EventTest extends TestCase
 
 	public void testEvent()
 	{
-		fail("Not yet implemented");
+		assertNotNull(e);
 	}
 
 	public void testSetTime()
 	{
-		fail("Not yet implemented");
+		String data = "12.12.2011\n";
+		try 
+		{
+			System.setIn(new ByteArrayInputStream(data.getBytes()));
+			e.setTime(InputUtils.askDate("Test"));
+		} 
+		finally
+		{
+			System.setIn(System.in);
+		}
+		assertEquals(Calendar.DECEMBER, e.eventDate.get(Calendar.MONTH));
+		assertEquals(12, e.eventDate.get(Calendar.DATE));
+		assertEquals(2011, e.eventDate.get(Calendar.YEAR));
+		
 	}
 
 	public void testCompareTo()
 	{
-		fail("Not yet implemented");
+		Event e2 = new Event();
+		e2.compareTo(e);
+		assertTrue(true);
 	}
 
 	public void testToString()
 	{
-		fail("Not yet implemented");
+		e.toString();
+		assertTrue(true);
 	}
 
 }

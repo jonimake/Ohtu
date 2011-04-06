@@ -28,7 +28,7 @@ public class InputUtilsTest extends TestCase
 	public void testAskNumber()
 	{
 
-		String data = "5";
+		String data = "5\n";
 
 		try 
 		{
@@ -45,7 +45,7 @@ public class InputUtilsTest extends TestCase
 
 	public void testAskDate()
 	{
-		String data = "12.12.2011";
+		String data = "12.12.2011\n";
 
 		try 
 		{

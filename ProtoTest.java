@@ -32,10 +32,7 @@ public class ProtoTest extends TestCase
 
 	public void testPrintView()
 	{
-		String data = "\n";
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
+		String data = "asd\n";
 		try 
 		{
 			System.setIn(new ByteArrayInputStream(data.getBytes()));
@@ -50,10 +47,7 @@ public class ProtoTest extends TestCase
 
 	public void testModify()
 	{
-		String data = "\n";
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
+		String data = "asd\n";
 		try 
 		{
 			System.setIn(new ByteArrayInputStream(data.getBytes()));
@@ -69,10 +63,7 @@ public class ProtoTest extends TestCase
 
 	public void testPrintMenu()
 	{
-		String data = "\n";
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
-		data += Character.LINE_SEPARATOR;
+		String data = "asd\n";
 		try 
 		{
 			System.setIn(new ByteArrayInputStream(data.getBytes()));
